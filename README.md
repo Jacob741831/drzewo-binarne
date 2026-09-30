@@ -1,56 +1,83 @@
-Drzewo Binarne w C++ (Binary Search Tree)
+# Dokumentacja programu – Drzewo Binarne
 
-Ten projekt przedstawia prostą, ale w pełni funkcjonalną implementację Binarnego Drzewa Poszukiwań (BST) w języku C++. Kod demonstruje zarządzanie pamięcią, strukturę węzłów, operacje wstawiania oraz dwa sposoby prezentacji danych: sortowanie rosnące oraz wizualizację struktury gałęziowej.
+## 1. Opis programu
 
-🚀 Funkcjonalności
+Program przedstawia implementację drzewa binarnego wyszukiwania (BST – Binary Search Tree) w języku C++.
 
-Struktura Węzła (drzewo): Reprezentuje pojedynczy węzeł zawierający wartość całkowitą (int a) oraz wskaźniki na lewe i prawe poddrzewo.
+Program umożliwia:
+- tworzenie pustego drzewa binarnego,
+- dodawanie liczb całkowitych do drzewa,
+- automatyczne rozmieszczanie elementów zgodnie z zasadami drzewa BST,
+- wyświetlanie elementów drzewa w kolejności rosnącej,
+- wyświetlanie struktury drzewa w formie gałęzi,
+- automatyczne zwalnianie pamięci po zakończeniu działania programu.
 
-Klasa Zarządzająca (DrzewoBinarne):
+Każdy element drzewa jest reprezentowany przez strukturę `drzewo`. Zawiera ona przechowywaną liczbę oraz dwa wskaźniki prowadzące do lewego i prawego dziecka.
 
-dodajLiczbe(int wartosc): Wstawia nową wartość do drzewa zgodnie z zasadą BST (mniejsze elementy trafiają do lewego poddrzewa, większe lub równe do prawego).
+Zasada działania drzewa jest następująca:
+- liczby mniejsze od wartości aktualnego węzła trafiają do lewego poddrzewa,
+- liczby większe lub równe wartości aktualnego węzła trafiają do prawego poddrzewa.
 
-sortujIWypisz(): Wykorzystuje algorytm In-order do wypisania elementów drzewa w porządku rosnącym.
+Przykładowo, dla kolejno dodanych wartości:
 
-wypiszJakoDrzewo(): Generuje czytelną, tekstową wizualizację hierarchii drzewa na konsoli.
+20, 10, 30, 5, 15, 25, 35
 
-Bezpieczne Zarządzanie Pamięcią: Automatyczne czyszczenie pamięci za pomocą destruktora i rekurencyjnej funkcji usuwającej węzły (delete).
+powstaje drzewo:
 
-🛠️ Zasada Działania (Reguła Wstawiania)
+        20
+       /  \
+     10    30
+    /  \   /  \
+   5   15 25  35
 
-Wstawianie nowych elementów odbywa się iteracyjnie od korzenia:
+Program następnie wypisuje elementy w kolejności rosnącej oraz przedstawia strukturę drzewa.
 
-Jeśli drzewo jest puste, nowy element staje się korzeniem.
+---
 
-Jeśli wartość jest mniejsza od aktualnego węzła, przechodzimy do lewego poddrzewa.
+## 2. Wykorzystane biblioteki
 
-Jeśli wartość jest większa lub równa, przechodzimy do prawego poddrzewa.
+### `#include <iostream>`
 
-Proces powtarza się do momentu natrafienia na wolne miejsce.
+Biblioteka umożliwiająca obsługę wejścia i wyjścia.
 
-💻 Przykładowy Kod Główny (main)
+W programie wykorzystywana jest przede wszystkim do:
+- `cout` – wyświetlania informacji na ekranie,
+- `endl` – przechodzenia do nowej linii.
 
-Program testowy wstawia następujące liczby: 20, 10, 30, 5, 15, 25, 35.
+### `#include <queue>`
 
-int main()
+Biblioteka zawierająca kolejkę (`queue`).
+
+W obecnej wersji programu nie jest ona wykorzystywana. Można ją usunąć bez wpływu na działanie programu.
+
+### `#include <string>`
+
+Biblioteka umożliwiająca korzystanie z typu `string`.
+
+Jest używana w funkcji `wypiszWizualniePomocniczo()` do przechowywania wcięć oraz oznaczeń gałęzi drzewa.
+
+### `using namespace std;`
+
+Pozwala korzystać z elementów przestrzeni nazw `std` bez konieczności pisania `std::`.
+
+Przykładowo zamiast:
+
+std::cout
+std::string
+
+można używać:
+
+cout
+string
+
+---
+
+# 3. Struktura `drzewo`
+
+```cpp
+struct drzewo
 {
-    DrzewoBinarne mojeDrzewo;
-
-    mojeDrzewo.dodajLiczbe(20);
-    mojeDrzewo.dodajLiczbe(10);
-    mojeDrzewo.dodajLiczbe(30);
-    mojeDrzewo.dodajLiczbe(5);
-    mojeDrzewo.dodajLiczbe(15);
-    mojeDrzewo.dodajLiczbe(25);
-    mojeDrzewo.dodajLiczbe(35);
-
-    // Wyświetlenie posortowanych elementów (In-order)
-    mojeDrzewo.sortujIWypisz();
-
-    cout << endl;
-
-    // Wyświetlenie struktury drzewa
-    mojeDrzewo.wypiszJakoDrzewo();
-
-    return 0;
-}
+    int a;
+    struct drzewo *lewy;
+    struct drzewo *prawy;
+};
