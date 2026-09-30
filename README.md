@@ -1,272 +1,56 @@
-🌳 Drzewo binarne wyszukiwania w C++
+Drzewo Binarne w C++ (Binary Search Tree)
 
-Program przedstawia implementację binarnego drzewa wyszukiwania (BST — Binary Search Tree) w języku C++.
+Ten projekt przedstawia prostą, ale w pełni funkcjonalną implementację Binarnego Drzewa Poszukiwań (BST) w języku C++. Kod demonstruje zarządzanie pamięcią, strukturę węzłów, operacje wstawiania oraz dwa sposoby prezentacji danych: sortowanie rosnące oraz wizualizację struktury gałęziowej.
 
-Program umożliwia:
+🚀 Funkcjonalności
 
-dodawanie liczb całkowitych do drzewa,
+Struktura Węzła (drzewo): Reprezentuje pojedynczy węzeł zawierający wartość całkowitą (int a) oraz wskaźniki na lewe i prawe poddrzewo.
 
-automatyczne umieszczanie elementów w odpowiednich gałęziach,
+Klasa Zarządzająca (DrzewoBinarne):
 
-wypisywanie elementów drzewa w kolejności rosnącej,
+dodajLiczbe(int wartosc): Wstawia nową wartość do drzewa zgodnie z zasadą BST (mniejsze elementy trafiają do lewego poddrzewa, większe lub równe do prawego).
 
-wizualne przedstawienie struktury drzewa,
+sortujIWypisz(): Wykorzystuje algorytm In-order do wypisania elementów drzewa w porządku rosnącym.
 
-automatyczne zwalnianie pamięci po zakończeniu programu.
+wypiszJakoDrzewo(): Generuje czytelną, tekstową wizualizację hierarchii drzewa na konsoli.
 
-📌 Zasada działania
+Bezpieczne Zarządzanie Pamięcią: Automatyczne czyszczenie pamięci za pomocą destruktora i rekurencyjnej funkcji usuwającej węzły (delete).
 
-Każdy element drzewa jest reprezentowany przez strukturę drzewo, która zawiera:
+🛠️ Zasada Działania (Reguła Wstawiania)
 
-a — wartość przechowywaną w węźle,
+Wstawianie nowych elementów odbywa się iteracyjnie od korzenia:
 
-lewy — wskaźnik na lewe poddrzewo,
+Jeśli drzewo jest puste, nowy element staje się korzeniem.
 
-prawy — wskaźnik na prawe poddrzewo.
+Jeśli wartość jest mniejsza od aktualnego węzła, przechodzimy do lewego poddrzewa.
 
-Dla każdego węzła obowiązuje zasada:
+Jeśli wartość jest większa lub równa, przechodzimy do prawego poddrzewa.
 
-lewe poddrzewo  <  węzeł  <=  prawe poddrzewo
+Proces powtarza się do momentu natrafienia na wolne miejsce.
 
+💻 Przykładowy Kod Główny (main)
 
-Oznacza to, że:
+Program testowy wstawia następujące liczby: 20, 10, 30, 5, 15, 25, 35.
 
-liczby mniejsze od wartości węzła trafiają w lewo,
-
-liczby większe lub równe trafiają w prawo.
-
-Przykład
-
-Dla kolejno dodanych wartości:
-
-20 10 30 5 15 25 35
-
-
-otrzymujemy:
-
-        20
-       /  \
-     10    30
-    /  \   / \
-   5   15 25 35
-
-🛠️ Główne elementy programu
-struct drzewo
-
-Struktura reprezentująca pojedynczy węzeł:
-
-struct drzewo
+int main()
 {
-    int a;
-    struct drzewo *lewy;
-    struct drzewo *prawy;
-};
+    DrzewoBinarne mojeDrzewo;
 
+    mojeDrzewo.dodajLiczbe(20);
+    mojeDrzewo.dodajLiczbe(10);
+    mojeDrzewo.dodajLiczbe(30);
+    mojeDrzewo.dodajLiczbe(5);
+    mojeDrzewo.dodajLiczbe(15);
+    mojeDrzewo.dodajLiczbe(25);
+    mojeDrzewo.dodajLiczbe(35);
 
-Każdy węzeł przechowuje swoją wartość oraz adresy swoich dzieci.
+    // Wyświetlenie posortowanych elementów (In-order)
+    mojeDrzewo.sortujIWypisz();
 
-Klasa DrzewoBinarne
+    cout << endl;
 
-Klasa zarządza całym drzewem. Posiada prywatny wskaźnik:
+    // Wyświetlenie struktury drzewa
+    mojeDrzewo.wypiszJakoDrzewo();
 
-drzewo *korzen;
-
-
-który wskazuje na korzeń drzewa.
-
-➕ Dodawanie elementów
-
-Za dodawanie liczb odpowiada funkcja:
-
-void dodajLiczbe(int wartosc)
-
-
-Nowy element jest tworzony dynamicznie za pomocą new.
-
-Następnie program rozpoczyna wyszukiwanie miejsca od korzenia:
-
-Jeżeli drzewo jest puste, element zostaje korzeniem.
-
-Jeżeli nowa wartość jest mniejsza od aktualnego węzła — przechodzimy w lewo.
-
-Jeżeli jest większa lub równa — przechodzimy w prawo.
-
-Proces trwa do momentu znalezienia pustego miejsca.
-
-🔢 Sortowanie elementów
-
-Za wypisanie elementów w kolejności rosnącej odpowiada:
-
-void sortujIWypisz()
-
-
-Wykorzystuje ona przejście in-order, czyli:
-
-lewe poddrzewo
-        ↓
-     węzeł
-        ↓
-prawe poddrzewo
-
-
-Dzięki właściwościom drzewa BST wartości są wypisywane automatycznie od najmniejszej do największej.
-
-Dla przykładowych danych wynik będzie:
-
-Posortowane elementy drzewa: 5 10 15 20 25 30 35
-
-🌲 Wyświetlanie drzewa
-
-Funkcja:
-
-void wypiszJakoDrzewo()
-
-
-prezentuje strukturę drzewa w formie tekstowej.
-
-Przykładowy wynik:
-
-Korzen -> 20
- Prawy: 30
-     P: 35
-     L: 25
- Lewy:  10
-     P: 15
-     L: 5
-
-
-Oznaczenia:
-
-Korzen — korzeń drzewa,
-
-P — prawe poddrzewo,
-
-L — lewe poddrzewo.
-
-🧹 Zarządzanie pamięcią
-
-Ponieważ węzły są tworzone dynamicznie przy pomocy:
-
-new drzewo;
-
-
-należy je później usunąć.
-
-Odpowiada za to destruktor:
-
-~DrzewoBinarne()
-{
-    usunDrzewo(korzen);
+    return 0;
 }
-
-
-Funkcja usunDrzewo() rekurencyjnie przechodzi po całym drzewie i usuwa każdy węzeł za pomocą:
-
-delete wezel;
-
-
-Dzięki temu pamięć zaalokowana przez program jest prawidłowo zwalniana.
-
-▶️ Przykładowe dane
-
-W funkcji main() do drzewa dodawane są:
-
-20
-10
-30
-5
-15
-25
-35
-
-
-Struktura drzewa:
-
-        20
-       /  \
-     10    30
-    /  \   / \
-   5   15 25 35
-
-💻 Kompilacja i uruchomienie
-
-Program wymaga kompilatora obsługującego język C++.
-
-Przykładowo przy użyciu g++:
-
-g++ main.cpp -o drzewo
-
-
-Następnie:
-
-Linux / macOS
-./drzewo
-
-Windows
-drzewo.exe
-
-📦 Wykorzystane biblioteki
-
-Program korzysta z:
-
-#include <iostream>
-#include <queue>
-#include <string>
-
-
-W praktyce w obecnej wersji programu potrzebne są:
-
-<iostream> — obsługa cout,
-
-<string> — obsługa typu string.
-
-Biblioteka <queue> jest dołączona, ale w aktualnej wersji programu nie jest wykorzystywana.
-
-⏱️ Złożoność
-
-Dla drzewa o wysokości h dodanie elementu wymaga przejścia maksymalnie przez h poziomów:
-
-O(h)
-
-
-Dla dobrze zbalansowanego drzewa:
-
-O(log n)
-
-
-W najgorszym przypadku, gdy drzewo staje się podobne do listy:
-
-O(n)
-
-
-Przejście in-order odwiedzające wszystkie elementy ma złożoność:
-
-O(n)
-
-📚 Cel projektu
-
-Projekt służy do demonstracji podstawowych zagadnień związanych z:
-
-drzewami binarnymi,
-
-binarnymi drzewami wyszukiwania,
-
-wskaźnikami,
-
-dynamiczną alokacją pamięci,
-
-rekurencją,
-
-przechodzeniem po strukturach danych,
-
-zarządzaniem pamięcią w C++.
-
-👨‍💻 Podsumowanie
-
-Program tworzy binarne drzewo wyszukiwania, dodaje do niego liczby całkowite, następnie:
-
-wypisuje elementy w kolejności rosnącej,
-
-przedstawia strukturę drzewa w formie tekstowej,
-
-usuwa wszystkie dynamicznie utworzone węzły przy zakończeniu działania programu.
