@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1790765926 source:c:\3tp\nowy folder\dawda\main.cpp
+	<iostream>
+	<queue>
+	<string>
+
